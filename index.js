@@ -7,6 +7,19 @@ const io = require('socket.io')(http)
 const html = require("./template")
 const LogFile = 'data.txt';
 
+const process = require("./matlab/process")
+const path = require("path");
+
+let data = null
+
+async function readFile() {
+  await process(path.resolve("myMat.mat"))
+    .then(value => data = value)
+    .catch(err => console.log("Error: ", err))
+
+  console.log(data)
+}
+
 console.log(`Watching for file changes on ${LogFile}`);
 
 app.get('/', (req, res) => {
@@ -30,5 +43,6 @@ io.on("connection", (socket) => {
 })
 
 http.listen(3000, () => {
-    console.log(`Example app listening at http://localhost:${3000}`)
+    console.log(`Server started at http://localhost:${3000}`)
+    readFile()
 })
