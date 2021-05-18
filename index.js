@@ -13,7 +13,7 @@ const path = require("path");
 let data = null
 
 async function readFile() {
-  await process(path.resolve("myMat.mat"))
+  await process(path.resolve("fourData.mat"))
     .then(value => data = value)
     .catch(err => console.log("Error: ", err))
 
@@ -35,7 +35,7 @@ async function readFile() {
         if (err) {
             console.log(err)
         } else {
-            console.log(data)
+            //console.log(data)
             io.emit("message", data)
         }
   })
