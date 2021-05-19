@@ -1,3 +1,4 @@
+// Формирование шаблона страницы
 module.exports = function() {
     return /*html*/ `
     <!DOCTYPE html>
@@ -18,7 +19,9 @@ module.exports = function() {
         <h1>Hello</h1>
         <script src="https://cdn.socket.io/3.1.1/socket.io.min.js"></script>
         <script>
-            const socket = io('http://localhost:3000/');
+            // Создание экземпеляра сокета
+            const socket = io('http://localhost:3000/')
+            // Ожидание событий по каналу "message"
             socket.on("message", text => {
                 document.body.innerHTML = text
             })
