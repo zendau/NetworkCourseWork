@@ -20,7 +20,7 @@ module.exports = function(fileName) {
                 // Закрытие с кодом 0
                 if (code === 0) {
                     // Возвращение полученных данных через res promise
-                    res(JSON.parse(dataToSend))
+                    res(dataToSend)
                 } else {
                     // Вызов ошибки дочернего процесса
                     throw new Error(`Python error code - ${code}`)
