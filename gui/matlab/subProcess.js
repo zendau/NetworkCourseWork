@@ -1,11 +1,13 @@
 // Получение метода создания дочернего процесса
 const {spawn} = require('child_process')
 
-// Массив для хранения данных
-const  dataToSend = [];
+
 
 module.exports = function(fileName) {
     return new Promise((res, rej) => {
+        // Массив для хранения данных
+        const  dataToSend = []
+        console.log("dataToSend", dataToSend)
         try {
             // Настройка запуска дочернего процесса
             const python = spawn('python', [__dirname +'\\sub.py', fileName])

@@ -5,7 +5,11 @@ const express = require('express')
 const app = express()
 const http = require('http').Server(app)
 // Объек сокетов
-const io = require('socket.io')(http)
+const io = require('socket.io')(http, {
+    cors: {
+      credentials: true
+    }
+})
 
 // Подключение html шаблона
 const html = require("./template/index")
@@ -63,6 +67,12 @@ app.use(express.static('template'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  })
+
 // Обработка Get / 
 app.get('/', (req, res) => {
     res.write(html())
@@ -75,7 +85,7 @@ app.post("/", (req, res) => {
     const reqData = req.body.data[0].replace("\n", "").replace("\r", "")
     console.log("req ", reqData)
     res.status(200)
-    io.emit("message", "hello from gui")
+    io.emit("message", reqData)
 })
 
 // Реализация слежения за изменением файла логирования
@@ -97,8 +107,13 @@ io.on("connection", (socket) => {
 })
 
 
-// Запуск html сервера
-http.listen(3000, () => {
-    console.log(`Server started at http://localhost:${3000}`)
-    //readFile()
+const PORT = process.env.PORT || 80
+
+const ifaces = require('os').networkInterfaces();
+    const localhost = Object.keys(ifaces).reduce((host,ifname) => {
+        let iface = ifaces[ifname].find(iface => !('IPv4' !== iface.family || iface.internal !== false));
+        return iface? iface.address : host;
+    }, '127.0.0.1');
+    http.listen(PORT, () => {
+        console.log(`server is started on http://${localhost}:${PORT}`)
 })

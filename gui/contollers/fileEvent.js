@@ -25,12 +25,14 @@ ipcMain.on('show-fileDialog', (event) => {
     }).then(result => {
         if (!result.canceled) {
             const path = result.filePaths[0]
+            console.log("path", result.filePaths[0])
             win.webContents.send("updateStatus", "start")
             process(path)
                 .then(value => { 
                     win.webContents.send("updateStatus", "end")
                     console.log("Send from main")
                     sendData(value)
+
                     fileWatch(path)
                 })
                 .catch(err => console.log("Error: ", err))
@@ -56,7 +58,6 @@ function fileWatch(filePath) {
                 process(filePath)
                     .then(value => { 
                         win.webContents.send("updateStatus", "end")
-                        fileWatch(path)
                         console.log("Send from watch")
                         sendData(value)
                         
@@ -71,7 +72,7 @@ function fileWatch(filePath) {
 
 function sendData(data) {
     axios
-        .post("http://"+CONFIG.url, {
+        .post(CONFIG.url, {
             data: data
         })
         .then(res => {
