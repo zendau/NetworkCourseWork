@@ -24,16 +24,14 @@ ipcMain.on('show-fileDialog', (event) => {
         ]
     }).then(result => {
         if (!result.canceled) {
-            const path = result.filePaths[0]
+            const pathFile = result.filePaths[0]
             console.log("path", result.filePaths[0])
-            win.webContents.send("updateStatus", "start")
-            process(path)
+            win.webContents.send("updateStatus", "Начата загрузка файла")
+            process(pathFile)
                 .then(value => { 
-                    win.webContents.send("updateStatus", "end")
+                    win.webContents.send("updateStatus", "Файл отправлен")
                     console.log("Send from main")
-                    sendData(value)
-
-                    fileWatch(path)
+                    sendData([value, path.basename(pathFile)])
                 })
                 .catch(err => console.log("Error: ", err))
         }
@@ -43,37 +41,12 @@ ipcMain.on('show-fileDialog', (event) => {
 
 })
 
-
-// Реализация слежения за изменением файла логирования
-function fileWatch(filePath) {
-
-    console.log(`Watching for file changes on ${path.basename(filePath)}`);
-    fs.watchFile(filePath, (curr, prev) => {
-        console.log(`${path.basename(filePath)} file Changed`)
-        fs.readFile(LogFile, "utf8", (err, data) => {
-            if (err) {
-                console.log(err)
-            } else {
-                console.log("Send from watch")
-                process(filePath)
-                    .then(value => { 
-                        win.webContents.send("updateStatus", "end")
-                        console.log("Send from watch")
-                        sendData(value)
-                        
-                    })
-                    .catch(err => console.log("Error: ", err))
-                //io.emit("message", data)
-            }
-    })
-    })
-}
-
-
 function sendData(data) {
+    console.log(data)
     axios
         .post(CONFIG.url, {
-            data: data
+            data: data[0],
+            title: data[1]
         })
         .then(res => {
             console.log(`statusCode: ${res.statusCode}`)

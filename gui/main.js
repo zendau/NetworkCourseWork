@@ -20,7 +20,6 @@ function createWindow () {
   mainWindow.loadFile('./assets/index.html')
   mainWindow.menuBarVisible = false
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
   module.exports = mainWindow
 }
 

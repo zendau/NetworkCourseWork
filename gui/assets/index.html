@@ -2,21 +2,42 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <link rel="stylesheet" href="bootstrap.min.css">
     <title>МПОИ КП Ковалёв А.Н. СКС-18</title>
+    <style>
+      .main-section {
+        margin-top: 15%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn-open {
+        margin-top: 20px;
+      }
+
+      .alert-mesage {
+        margin-top: 20px;
+        min-width: 250px;
+      }
+    </style>
   </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
-
-    <button id="open">Открыть</button>
-    <p id="status"></p>
-
-    <!-- You can also require other files to run in this process -->
-    <script src="../contollers/renderer.js"></script>
+  <body>    
+    <div class="container main-section">
+      <h1>Загрузка файлов на сервер</h1>
+      <button id="open" class="btn btn-primary btn-open">Открыть</button>
+      <p class="alert alert-secondary alert-mesage">Статус загрузки: <span id="status">Ожидание загрузки</span></p>
+      <p>
+        <button class="btn btn-info" type="button" id="toggle">
+          Информация о загрузочных файлах
+        </button>
+      </p>
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+          Загруживаемый файл должен быть выходным файлом matlab 6.1, созданный в результате работы модели устройства передачи данных по бинарному каналу и иметь расширение .mat
+        </div>
+      </div>
+    </div>
+     <script src="../contollers/renderer.js"></script>
   </body>
 </html>

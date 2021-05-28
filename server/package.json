@@ -4,14 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "build:prod": "cross-env webpack --mode=production",
+    "build:dev": "cross-env webpack --mode=development"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "-": "^0.0.1",
     "axios": "^0.21.1",
+    "core-js": "^3.13.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.7",
-    "socket.io": "^3.1.1"
+    "regenerator-runtime": "^0.13.7",
+    "socket.io": "^3.1.1",
+    "webpack": "^5.37.1",
+    "webpack-cli": "^4.7.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "babel-loader": "^8.2.2",
+    "cross-env": "^7.0.3"
   }
 }

@@ -1,6 +1,6 @@
 // Размеры хэлемента
-const WIDTH = 800
-const HEIGHT = 500
+const WIDTH = 1110
+const HEIGHT = 600
 // Внутренний отступ
 const PADDING = 50
 // Размеры холста
@@ -14,8 +14,18 @@ const ROWS_COUNT = 5
 // степень сглаживания графика
 const SMOOT = 5
 
+const COLORS = [
+    "#F50818",
+    "#EC0FF6",
+    "#F64D25",
+    "#3176D4",
+    "#31A1D4",
+    "#3FADD4",
+    "#D4B53F"
+]
+
 // Функция для построения графика
-function chart (canvas, data, SMOOT) {
+export default function chart (canvas, data, SMOOT) {
     
     // Создание холста
     const ctx = canvas.getContext("2d")
@@ -52,7 +62,7 @@ function chart (canvas, data, SMOOT) {
 
     
     // Перебор колонок с данными для построения
-    yData.forEach(col => {
+    yData.forEach((col,index) => {
         // Определение "x" и "y"
         let coords = col.map((y,i) => {
             return [
@@ -71,7 +81,7 @@ function chart (canvas, data, SMOOT) {
         const rdmColor = '#' + (Math.random().toString(16) + '000000').substring(2,8).toUpperCase()
 
         // Отрисовывание линии
-        drawLine(ctx, coords, rdmColor)
+        drawLine(ctx, coords, COLORS[index])
     })
     
 }
